@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './users/user.controller';
 import { UserService } from './users/user.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env'],
+      isGlobal: true,
+    }),
+  ],
   controllers: [UserController],
   providers: [UserService],
 })
