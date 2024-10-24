@@ -19,6 +19,8 @@ export abstract class GenericRepository<E> extends Repository<E> implements IGen
   }
 
   public async listEntitiesAndCount(page: number, limit: number): Promise<[E[], number]> {
+    page = Number(page);
+    limit = Number(limit);
     page = page > 0 ? page : page = 1;
     limit = limit > 0 ? limit : limit = 1;
     const take = limit + (page - 1)*limit;

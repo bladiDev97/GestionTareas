@@ -2,14 +2,18 @@ import { Controller } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateTaskDto, TaskMSG, UpdateTaskDto } from '@app/shared';
+import { Pagination } from '@app/shared/interfaces/pagination/pagination';
+import { PaginationDto } from '@app/shared/interfaces/pagination/pagination.dto';
 
 @Controller()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @MessagePattern(TaskMSG.GET_ALL)
-  public async list() {
-    return await this.tasksService.list(1, 10);
+  public async list(dto: PaginationDto) {
+    const {page, limit} = dto;
+    const data = await this.tasksService.list(page, limit);
+    return new Pagination(data);
   }
 
   @MessagePattern(TaskMSG.GET_ONE)

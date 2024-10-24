@@ -2,9 +2,10 @@
 import { lastValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Get, Controller, Post, Delete, Put, Inject, Body, Param } from '@nestjs/common';
+import { Get, Controller, Post, Delete, Put, Inject, Body, Param, Query } from '@nestjs/common';
 
 import { CreateTaskDto, Queues, TaskMSG, UpdateTaskDto } from '@app/shared';
+import { PaginationDto } from '@app/shared/interfaces/pagination/pagination.dto';
 
 @ApiTags('Tasks')
 @Controller('api/v1/tasks')
@@ -16,8 +17,12 @@ export class ApiTaskController {
   /** Get all tasks */
   @Get('/list')
   @ApiOperation({summary: 'Get all tasks',})
-  async list() {
-    return await lastValueFrom( this.client.send( TaskMSG.GET_ALL, '' ) );
+  async list(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
+    const dto: PaginationDto = { page, limit };
+    return await lastValueFrom( this.client.send( TaskMSG.GET_ALL, dto ) );
   }
 
   /** get one tasks */
