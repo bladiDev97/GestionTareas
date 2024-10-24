@@ -9,6 +9,11 @@ Rabbit:
 docker run -d --hostname rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=rabbitpw -p 9090:15672 -p 5672:5672 rabbitmq:3-management
 ```
 
+Postgres:
+```sh
+docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgrespw -e POSTGRES_DB=postgres -d -p 5432:5432 postgres
+```
+
 - ejecutar el siguiente script: 
 ```sh
 sh install.sh
