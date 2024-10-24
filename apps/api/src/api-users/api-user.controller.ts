@@ -1,9 +1,10 @@
 // Dependencies
-import { Get, Controller, Post, Delete, Put, Inject } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { lastValueFrom } from 'rxjs';
-import { Queues, UserMSG } from '@app/shared';
 import { ClientProxy } from '@nestjs/microservices';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Get, Controller, Post, Delete, Put, Inject, Param, Body } from '@nestjs/common';
+
+import { CreateUserDto, Queues, UpdateUserDto, UserMSG } from '@app/shared';
 
 @ApiTags('Users')
 @Controller('api/v1/users')
@@ -20,31 +21,31 @@ export class ApiUserController {
   }
 
   /** get one user */
-  @Get('/get/:id')
+  @Get('/detail/:id')
   @ApiOperation({summary: 'get one user',})
-  async get() {
-    return await lastValueFrom( this.client.send( UserMSG.GET_ONE, '' ) );
+  async detail(@Param('id') id: number) {
+    return await lastValueFrom( this.client.send( UserMSG.GET_ONE, id ) );
   }
 
   /** Create user */
-  @Post('/create/:id')
+  @Post('/create')
   @ApiOperation({summary: 'Create user',})
-  async create() {
-    return await lastValueFrom( this.client.send( UserMSG.CREATE, '' ) );
+  async create(@Body() dto: CreateUserDto) {
+    return await lastValueFrom( this.client.send( UserMSG.CREATE, dto ) );
   }
 
   /** Update user */
-  @Put('/update/:id')
+  @Put('/update')
   @ApiOperation({summary: 'Update user',})
-  async update() {
-    return await lastValueFrom( this.client.send( UserMSG.UPDATE, '' ) );
+  async update(@Body() dto: UpdateUserDto) {
+    return await lastValueFrom( this.client.send( UserMSG.UPDATE, dto ) );
   }
 
   /** Update user */
   @Delete('/delete/:id')
   @ApiOperation({summary: 'Delete user',})
-  async delete() {
-    return await lastValueFrom( this.client.send( UserMSG.DELETE, '' ) );
+  async delete(@Param('id') id: number) {
+    return await lastValueFrom( this.client.send( UserMSG.DELETE, id ) );
   }
 
 }
