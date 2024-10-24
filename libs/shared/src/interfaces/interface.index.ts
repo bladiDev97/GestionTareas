@@ -6,6 +6,8 @@ export * from './ms-task/update-task.dto';
 
 // User exports
 export * from './ms-user/i-user.interface';
+export * from './ms-user/create-user.dto';
+export * from './ms-user/update-user.dto';
 
 // Generic Repository Interface
 export * from '../repository-generic/i-generic.repository.interface';
