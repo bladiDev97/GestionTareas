@@ -8,7 +8,7 @@ import { Queues } from '@app/shared';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env'],
+      envFilePath: ['apps/api/.env'],
       isGlobal: true,
     }),
     ClientsModule.register([
@@ -16,7 +16,7 @@ import { Queues } from '@app/shared';
         name: Queues.User,
         transport: Transport.RMQ,
         options: {
-          urls: [process.env.AMQP_URL],
+          urls: [`amqp://${process.env.AMQP_USER}:${process.env.AMQP_PSWD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`],
           queue: Queues.User,
         }
       },
@@ -24,7 +24,7 @@ import { Queues } from '@app/shared';
         name: Queues.Task,
         transport: Transport.RMQ,
         options: {
-          urls: [process.env.AMQP_URL],
+          urls: [`amqp://${process.env.AMQP_USER}:${process.env.AMQP_PSWD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`],
           queue: Queues.Task,
         }
       },
