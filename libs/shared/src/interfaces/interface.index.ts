@@ -8,4 +8,4 @@ export * from './ms-task/update-task.dto';
 export * from './ms-user/i-user.interface';
 
 // Generic Repository Interface
-export * from './i-generic.repository.interface';
+export * from '../repository-generic/i-generic.repository.interface';

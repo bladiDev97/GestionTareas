@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Repository, DataSource, EntityTarget, DeepPartial, FindOneOptions } from 'typeorm';
-import { IGenericRepository } from './src/interfaces/i-generic.repository.interface';
+import { IGenericRepository } from './i-generic.repository.interface';
 
 export abstract class GenericRepository<E> extends Repository<E> implements IGenericRepository<E> {
   constructor(
