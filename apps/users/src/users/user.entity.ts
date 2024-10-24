@@ -1,7 +1,7 @@
 import { IUser } from '@app/shared';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'tblUser' })
 export class UserEntity implements IUser {
   @PrimaryGeneratedColumn( { name: 'User_id' })
   id: number;

@@ -1,7 +1,7 @@
 import { ITask, TaskState } from '@app/shared';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'tasks' })
+@Entity({ name: 'tblTask' })
 export class TaskEntity implements ITask {
   @PrimaryGeneratedColumn( { name: 'Task_id' })
   id: number;
