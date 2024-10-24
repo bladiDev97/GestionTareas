@@ -2,9 +2,10 @@
 import { lastValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Get, Controller, Post, Delete, Put, Inject, Param, Body } from '@nestjs/common';
+import { Get, Controller, Post, Delete, Put, Inject, Param, Body, Query } from '@nestjs/common';
 
 import { CreateUserDto, Queues, UpdateUserDto, UserMSG } from '@app/shared';
+import { PaginationDto } from '@app/shared/interfaces/pagination/pagination.dto';
 
 @ApiTags('Users')
 @Controller('api/v1/users')
@@ -16,8 +17,12 @@ export class ApiUserController {
   /** Get all users */
   @Get('/list')
   @ApiOperation({summary: 'Get all users',})
-  async list() {
-    return await lastValueFrom( this.client.send( UserMSG.GET_ALL, '' ) );
+  async list(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
+    const dto: PaginationDto = { page, limit };
+    return await lastValueFrom( this.client.send( UserMSG.GET_ALL, dto ) );
   }
 
   /** get one user */

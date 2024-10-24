@@ -2,14 +2,17 @@ import { Controller, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateUserDto, UpdateUserDto, UserMSG } from '@app/shared';
+import { PaginationDto } from '@app/shared/interfaces/pagination/pagination.dto';
+import { Pagination } from '@app/shared/interfaces/pagination/pagination';
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
   @MessagePattern(UserMSG.GET_ALL)
-  list() {
-    return this.userService.list(1, 10);
+  public async list(dto: PaginationDto) {
+    const data = await this.userService.list(dto.page, dto.limit);
+    return new Pagination(data);
   }
 
   @MessagePattern(UserMSG.GET_ONE)
