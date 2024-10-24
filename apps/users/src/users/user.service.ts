@@ -1,24 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import { UserEntity } from './user.entity';
+import { CreateUserDto, UpdateUserDto } from '@app/shared';
 
 @Injectable()
 export class UserService {
-  list(): string {
-    return 'call method: list from user service';
+  constructor(@Inject(UserRepository) public readonly userRepository: UserRepository) {}
+
+  public async list(page: number, limit: number): Promise<[UserEntity[], number]> {
+    return await this.userRepository.listEntitiesAndCount(page, limit);
   }
 
-  get(): string {
-    return 'call method: get from user service';
+  public async detail(id: number): Promise<UserEntity> {
+    return await this.userRepository.findOneEntity(id);
   }
 
-  create(): string {
-    return 'call method: create from user service';
+  public async create(dto: CreateUserDto): Promise<UserEntity> {
+    const entity = this.userRepository.instanceEntity(dto);
+    return await this.userRepository.saveEntity(entity);
   }
 
-  update(): string {
-    return 'call method: update from user service';
+  public async update(dto: UpdateUserDto): Promise<UserEntity> {
+    const entity = this.userRepository.instanceEntity(dto);
+    return await this.userRepository.updateEntity(entity);
   }
 
-  delete(): string {
-    return 'call method: delete from user service';
+  public async delete(id: number): Promise<UserEntity> {
+    return await this.userRepository.deleteEntity(id);
   }
 }
