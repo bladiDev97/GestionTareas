@@ -1,34 +1,34 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { TaskMSG } from '@app/shared';
+import { CreateTaskDto, TaskMSG, UpdateTaskDto } from '@app/shared';
 
 @Controller()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @MessagePattern(TaskMSG.GET_ALL)
-  list(): string {
-    return this.tasksService.list();
+  public async list() {
+    return await this.tasksService.list(1, 10);
   }
 
   @MessagePattern(TaskMSG.GET_ONE)
-  get(): string {
-    return this.tasksService.get();
+  public async get(id: number) {
+    return this.tasksService.detail(id);
   }
 
   @MessagePattern(TaskMSG.CREATE)
-  create(): string {
-    return this.tasksService.create();
+  public async create(dto: CreateTaskDto) {
+    return this.tasksService.create(dto);
   }
 
   @MessagePattern(TaskMSG.UPDATE)
-  update(): string {
-    return this.tasksService.update();
+  public async update(dto: UpdateTaskDto) {
+    return this.tasksService.update(dto);
   }
 
   @MessagePattern(TaskMSG.DELETE)
-  delete(): string {
-    return this.tasksService.delete();
+  public async delete(id: number) {
+    return this.tasksService.delete(id);
   }
 }

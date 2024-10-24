@@ -1,24 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { CreateTaskDto, UpdateTaskDto } from '@app/shared';
+
+import { TaskEntity } from './task.entity';
+import { TaskRepository } from './tasks.repository';
+
 
 @Injectable()
 export class TasksService {
-  list(): string {
-    return 'call method: list from task service';
+  constructor(@Inject(TaskRepository) public readonly taskRepository: TaskRepository) {}
+
+  public async list(page: number, limit: number): Promise<[TaskEntity[], number]> {
+    return await this.taskRepository.listEntitiesAndCount(page, limit);
   }
 
-  get(): string {
-    return 'call method: get from task service';
+  public async detail(id: number): Promise<TaskEntity> {
+    return await this.taskRepository.findOneEntity(id);
   }
 
-  create(): string {
-    return 'call method: create from task service';
+  public async create(dto: CreateTaskDto): Promise<TaskEntity> {
+    const entity = this.taskRepository.instanceEntity(dto);
+    return await this.taskRepository.saveEntity(entity);
   }
 
-  update(): string {
-    return 'call method: update from task service';
+  public async update(dto: UpdateTaskDto): Promise<TaskEntity> {
+    const entity = this.taskRepository.instanceEntity(dto);
+    return await this.taskRepository.updateEntity(entity);
   }
 
-  delete(): string {
-    return 'call method: delete from task service';
+  public async delete(id: number): Promise<TaskEntity> {
+    return await this.taskRepository.deleteEntity(id);
   }
 }

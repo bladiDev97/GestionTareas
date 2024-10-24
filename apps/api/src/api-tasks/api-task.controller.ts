@@ -1,9 +1,10 @@
 // Dependencies
-import { Get, Controller, Post, Delete, Put, Inject } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { lastValueFrom } from 'rxjs';
-import { Queues, TaskMSG } from '@app/shared';
 import { ClientProxy } from '@nestjs/microservices';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Get, Controller, Post, Delete, Put, Inject, Body, Param } from '@nestjs/common';
+
+import { CreateTaskDto, Queues, TaskMSG, UpdateTaskDto } from '@app/shared';
 
 @ApiTags('Tasks')
 @Controller('api/v1/tasks')
@@ -20,31 +21,31 @@ export class ApiTaskController {
   }
 
   /** get one tasks */
-  @Get('/get/:id')
+  @Get('/detail/:id')
   @ApiOperation({summary: 'get one tasks',})
-  async get() {
-    return await lastValueFrom( this.client.send( TaskMSG.GET_ONE, '' ) );
+  async get(@Param('id') id: number) {
+    return await lastValueFrom( this.client.send( TaskMSG.GET_ONE, id ) );
   }
 
   /** Create tasks */
   @Post('/create')
   @ApiOperation({summary: 'Create tasks',})
-  async create() {
-    return await lastValueFrom( this.client.send( TaskMSG.CREATE, '' ) );
+  async create(@Body()dto: CreateTaskDto) {
+    return await lastValueFrom( this.client.send( TaskMSG.CREATE, dto ) );
   }
 
   /** Update tasks */
   @Put('/update')
   @ApiOperation({summary: 'Update tasks',})
-  async update() {
-    return await lastValueFrom( this.client.send( TaskMSG.UPDATE, '' ) );
+  async update(@Body() dto: UpdateTaskDto) {
+    return await lastValueFrom( this.client.send( TaskMSG.UPDATE, dto ) );
   }
 
   /** Update tasks */
   @Delete('/delete/:id')
   @ApiOperation({summary: 'Delete tasks',})
-  async delete() {
-    return await lastValueFrom( this.client.send( TaskMSG.DELETE, '' ) );
+  async delete(@Param('id') id: number) {
+    return await lastValueFrom( this.client.send( TaskMSG.DELETE, id ) );
   }
 
 }
