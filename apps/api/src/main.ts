@@ -20,9 +20,9 @@ async function bootstrap() {
 bootstrap();
 
 const swaggerOptions = new DocumentBuilder()
-  .setTitle('Basic Structure NestJs')
-  .setDescription('Basic Structure')
-  .setVersion('0.0.1')
-  .addBearerAuth()
-  .addSecurityRequirements('bearer')
+  .setTitle('Todo App')
+  .setDescription('Aplicacion de pendientes')
+  .setVersion('1.0.0')
+  // .addBearerAuth()
+  // .addSecurityRequirements('bearer')
   .build();
