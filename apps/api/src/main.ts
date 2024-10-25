@@ -16,6 +16,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.port ?? 3000);
+  console.log('test the api ->','http://localhost:3000/api');
 }
 bootstrap();
 
