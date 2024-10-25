@@ -1,4 +1,7 @@
 # Proyecto Sistema de Gestión de Tareas
+El proyecto fue creado con 
+- node v20.17.0
+- npm v10.8.2
 
 ## Instalación
 - instalar docker
